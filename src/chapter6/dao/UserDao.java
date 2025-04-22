@@ -186,32 +186,32 @@ public class UserDao {
 			sql.append("    account = ?, ");
 			sql.append("    name = ?, ");
 			sql.append("    email = ?, ");
-
-
+			//パスワードが更新されてたらDBも更新したいからSQL書く
+			if(user.getPassword() != "empty") {
+				sql.append("    password = ?, ");
+			}
 			sql.append("    description = ?, ");
 			sql.append("    updated_date = CURRENT_TIMESTAMP ");
 			sql.append("WHERE id = ?");
 
-			//パスワードが更新されてたらDBも更新しよう
-			if(user.getPassword() != "empty") {
-				sql.append("    password = ?, ");
-			}
-
-			//合体させたUPDATE文の実行準備
 			ps = connection.prepareStatement(sql.toString());
 
 			//合体させたUPDATE文の穴埋め
-			//1個目の?に、右側のvalue入れる
+			//1個目の?に、右側のvalue入れるの考え方
 			ps.setString(1, user.getAccount());
 			ps.setString(2, user.getName());
 			ps.setString(3, user.getEmail());
-
-			ps.setString(4, user.getDescription());
-			ps.setInt(5, user.getId());
-
+			//パスワードが更新されてたらDBも更新したいから埋める
 			if(user.getPassword() != "empty") {
-				ps.setString(6, user.getPassword());
+				ps.setString(4, user.getPassword());
+				ps.setString(5, user.getDescription());
+				ps.setInt(6, user.getId());
+			} else {
+				ps.setString(4, user.getDescription());
+				ps.setInt(5, user.getId());
 			}
+
+
 
 			//UPDATE文実行
 			int count = ps.executeUpdate();

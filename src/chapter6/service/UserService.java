@@ -117,11 +117,8 @@ public class UserService {
 
 		Connection connection = null;
 		try {
-
-
 			//パスワードが更新されていたら暗号化する
 			if(user.getPassword() != "empty") {
-				// パスワードだけは暗号化する
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				//暗号化したパスワードに更新
 				user.setPassword(encPassword);

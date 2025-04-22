@@ -123,6 +123,7 @@ public class SettingServlet extends HttpServlet {
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
+		//パスワードを更新しない（空欄）の場合は仮でemptyにします
 		if (StringUtils.isEmpty(password)) {
 			password = "empty";
 			user.setPassword(password);
