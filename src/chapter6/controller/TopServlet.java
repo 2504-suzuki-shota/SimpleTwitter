@@ -45,13 +45,13 @@ public class TopServlet extends HttpServlet {
 				}.getClass().getEnclosingMethod().getName());
 
 		boolean isShowMessageForm = false;
-		//requestのsessionの中にあるloginUserに対応するvalueを取得
 		User user = (User) request.getSession().getAttribute("loginUser");
 		if (user != null) {
 			isShowMessageForm = true;
 		}
 
-		List<UserMessage> messages = new MessageService().select();
+		String userId = request.getParameter("user_id");
+		List<UserMessage> messages = new MessageService().select(userId);
 
 		request.setAttribute("messages", messages);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
