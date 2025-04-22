@@ -22,7 +22,6 @@ import chapter6.service.MessageService;
 @WebServlet(urlPatterns = { "/message" })
 public class MessageServlet extends HttpServlet {
 
-
 	/**
 	 * ロガーインスタンスの生成
 	 */
@@ -35,16 +34,16 @@ public class MessageServlet extends HttpServlet {
 	public MessageServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
-
 	}
-
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		//セッションを作る
 		HttpSession session = request.getSession();
@@ -73,13 +72,15 @@ public class MessageServlet extends HttpServlet {
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
-		//テキストが何も入力されてない場合
+		//テキストが何も入力されてない場合（シフト、改行もNG）
 		if (StringUtils.isBlank(text)) {
 			errorMessages.add("メッセージを入力してください");
-		//テキストが141文字以上場合
+			//テキストが141文字以上場合
 		} else if (140 < text.length()) {
 			errorMessages.add("140文字以下で入力してください");
 		}

@@ -7,13 +7,14 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
+
 import chapter6.beans.User;
 import chapter6.dao.UserDao;
 import chapter6.logging.InitApplication;
 import chapter6.utils.CipherUtil;
 
 public class UserService {
-
 
 	/**
 	 * ロガーインスタンスの生成
@@ -32,9 +33,10 @@ public class UserService {
 
 	public void insert(User user) {
 
-
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -47,21 +49,26 @@ public class UserService {
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);
 		}
 	}
+
 	public User select(String accountOrEmail, String password) {
 
 		//ログの出力
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -75,21 +82,25 @@ public class UserService {
 			return user;
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);
 		}
 	}
+
 	public User select(int userId) {
 
-
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -100,25 +111,30 @@ public class UserService {
 			return user;
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);
 		}
 	}
+
 	public void update(User user) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
-			//パスワードが更新されていたら暗号化する
-			if(user.getPassword() != "empty") {
+			//パスワードが更新されていたら暗号化する→空白じゃなかったら
+			if (!StringUtils.isBlank(user.getPassword())) {
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				//暗号化したパスワードに更新
 				user.setPassword(encPassword);
@@ -130,11 +146,13 @@ public class UserService {
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);

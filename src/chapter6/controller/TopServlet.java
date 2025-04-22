@@ -32,7 +32,6 @@ public class TopServlet extends HttpServlet {
 	public TopServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
-
 	}
 
 	@Override
@@ -40,8 +39,10 @@ public class TopServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		boolean isShowMessageForm = false;
 		//requestのsessionの中にあるloginUserに対応するvalueを取得

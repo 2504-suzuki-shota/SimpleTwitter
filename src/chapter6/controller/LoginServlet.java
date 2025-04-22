@@ -16,7 +16,6 @@ import chapter6.beans.User;
 import chapter6.logging.InitApplication;
 import chapter6.service.UserService;
 
-
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
 
@@ -39,8 +38,10 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		//login.jspにrequest, responseを返す
 		request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -51,8 +52,10 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		String accountOrEmail = request.getParameter("accountOrEmail");
 		String password = request.getParameter("password");

@@ -14,7 +14,6 @@ import chapter6.logging.InitApplication;
 
 public class MessageDao {
 
-
 	/**
 	 * ロガーインスタンスの生成
 	 */
@@ -32,8 +31,10 @@ public class MessageDao {
 
 	public void insert(Connection connection, Message message) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -45,10 +46,10 @@ public class MessageDao {
 			sql.append("    created_date, ");
 			sql.append("    updated_date ");
 			sql.append(") VALUES ( ");
-			sql.append("    ?, ");                  // user_id
-			sql.append("    ?, ");                  // text
-			sql.append("    CURRENT_TIMESTAMP, ");  // created_date
-			sql.append("    CURRENT_TIMESTAMP ");   // updated_date
+			sql.append("    ?, "); // user_id
+			sql.append("    ?, "); // text
+			sql.append("    CURRENT_TIMESTAMP, "); // created_date
+			sql.append("    CURRENT_TIMESTAMP "); // updated_date
 			sql.append(")");
 
 			//合体させたINSERTO文を実行
@@ -60,7 +61,8 @@ public class MessageDao {
 			ps.setString(2, message.getText());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);

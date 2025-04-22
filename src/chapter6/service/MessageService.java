@@ -16,7 +16,6 @@ import chapter6.logging.InitApplication;
 
 public class MessageService {
 
-
 	/**
 	 * ロガーインスタンスの生成
 	 */
@@ -34,8 +33,10 @@ public class MessageService {
 
 	public void insert(Message message) {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		Connection connection = null;
 		try {
@@ -44,20 +45,25 @@ public class MessageService {
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);
 		}
 	}
+
 	public List<UserMessage> select() {
 
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		final int LIMIT_NUM = 1000;
 
@@ -70,11 +76,13 @@ public class MessageService {
 			return messages;
 		} catch (RuntimeException e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
-			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw e;
 		} finally {
 			close(connection);
