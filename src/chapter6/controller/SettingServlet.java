@@ -115,25 +115,29 @@ public class SettingServlet extends HttpServlet {
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
 			errorMessages.add("名前は20文字以下で入力してください");
 		}
+
 		if (StringUtils.isEmpty(account)) {
 			errorMessages.add("アカウント名を入力してください");
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
 		}
+
 		//設定画面で入力しgetUserメソッド内でセットしたIDとDBから持ってきたIDが同じならアカウント名が同じでもOK
 		//DBから持ってきたIDはselectメソッドのreturnの中から取り出す
-		if (new UserService().select(account) != null) {
-			if (id != new UserService().select(account).getId()) {
-				errorMessages.add("そのアカウントはすでに登録されています");
-			}
+		User userdate = new UserService().select(account);
+		if (userdate != null && id != userdate.getId()) {
+			errorMessages.add("そのアカウントはすでに登録されています");
 		}
+
 		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
+
 		//何かしらのエラーがある場合
 		if (errorMessages.size() != 0) {
 			return false;
 		}
+
 		//エラーがない場合
 		return true;
 	}
