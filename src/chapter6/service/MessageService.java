@@ -75,10 +75,10 @@ public class MessageService {
 
 			Integer id = null;
 			//サーブレットから持ってきたuserIdが空でなければ型変更
-		    if(!StringUtils.isEmpty(userId)) {
-		    	id = Integer.parseInt(userId);
-		    }
-		    List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			if (!StringUtils.isEmpty(userId)) {
+				id = Integer.parseInt(userId);
+			}
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
 			commit(connection);
 			return messages;
 		} catch (RuntimeException e) {

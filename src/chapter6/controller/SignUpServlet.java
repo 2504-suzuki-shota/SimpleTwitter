@@ -41,8 +41,8 @@ public class SignUpServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		//ログの出力
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//引数のsignup.jspを呼び出す
 		request.getRequestDispatcher("signup.jsp").forward(request, response);
@@ -53,27 +53,31 @@ public class SignUpServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {
+		}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {
+				}.getClass().getEnclosingMethod().getName());
 
 		List<String> errorMessages = new ArrayList<String>();
 
 		User user = getUser(request);
+		//エラーがあった場合の処理
 		if (!isValid(user, errorMessages)) {
 			request.setAttribute("errorMessages", errorMessages);
-			//引数のsignup.jspを呼び出します。
+
+			//引数のsignup.jspを呼び出してエラーメッセージ表示する
 			request.getRequestDispatcher("signup.jsp").forward(request, response);
 			return;
 		}
+		//エラーがなければ登録へ
 		new UserService().insert(user);
 		response.sendRedirect("./");
 	}
 
 	private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
-
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		User user = new User();
 		user.setName(request.getParameter("name"));
@@ -86,9 +90,8 @@ public class SignUpServlet extends HttpServlet {
 
 	private boolean isValid(User user, List<String> errorMessages) {
 
-
-		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
-				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		String name = user.getName();
 		String account = user.getAccount();
@@ -103,6 +106,8 @@ public class SignUpServlet extends HttpServlet {
 			errorMessages.add("アカウント名を入力してください");
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
+		} else if (new UserService().select(account) != null) {
+			errorMessages.add("そのアカウントはすでに登録されています");
 		}
 
 		if (StringUtils.isEmpty(password)) {

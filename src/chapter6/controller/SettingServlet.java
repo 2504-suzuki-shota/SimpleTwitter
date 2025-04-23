@@ -41,10 +41,8 @@ public class SettingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
 		User loginUser = (User) session.getAttribute("loginUser");
@@ -59,10 +57,8 @@ public class SettingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//セッションを作成
 		HttpSession session = request.getSession();
@@ -93,10 +89,8 @@ public class SettingServlet extends HttpServlet {
 
 	private User getUser(HttpServletRequest request) throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		User user = new User();
 		user.setId(Integer.parseInt(request.getParameter("id")));
@@ -110,11 +104,10 @@ public class SettingServlet extends HttpServlet {
 
 	private boolean isValid(User user, List<String> errorMessages) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
+		int id = user.getId();
 		String name = user.getName();
 		String account = user.getAccount();
 		String email = user.getEmail();
@@ -126,6 +119,13 @@ public class SettingServlet extends HttpServlet {
 			errorMessages.add("アカウント名を入力してください");
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
+		}
+		//設定画面で入力しgetUserメソッド内でセットしたIDとDBから持ってきたIDが同じならアカウント名が同じでもOK
+		//DBから持ってきたIDはselectメソッドのreturnの中から取り出す
+		if (new UserService().select(account) != null) {
+			if (id != new UserService().select(account).getId()) {
+				errorMessages.add("そのアカウントはすでに登録されています");
+			}
 		}
 		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");

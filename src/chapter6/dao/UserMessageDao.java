@@ -36,7 +36,7 @@ public class UserMessageDao {
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -55,7 +55,7 @@ public class UserMessageDao {
 			//結合条件 messagesテーブルのuser_idとusersテーブルのidが等しい
 			sql.append("ON messages.user_id = users.id ");
 			//idがnullじゃない場合
-			if(id != null) {
+			if (id != null) {
 				//取り出す条件指定
 				sql.append("WHERE user_id = ? ");
 			}
@@ -64,7 +64,7 @@ public class UserMessageDao {
 
 			ps = connection.prepareStatement(sql.toString());
 
-			if(id != null) {
+			if (id != null) {
 				ps.setInt(1, id);
 			}
 
@@ -86,7 +86,7 @@ public class UserMessageDao {
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		}.getClass().getEnclosingMethod().getName());
 
 		List<UserMessage> messages = new ArrayList<UserMessage>();
 		try {

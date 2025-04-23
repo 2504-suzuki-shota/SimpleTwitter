@@ -37,10 +37,8 @@ public class UserDao {
 
 	public void insert(Connection connection, User user) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -84,10 +82,8 @@ public class UserDao {
 	public User select(Connection connection, String accountOrEmail, String password) {
 
 		//ログの出力
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -126,10 +122,8 @@ public class UserDao {
 
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<User> users = new ArrayList<User>();
 		try {
@@ -154,10 +148,8 @@ public class UserDao {
 
 	public User select(Connection connection, int id) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -187,12 +179,42 @@ public class UserDao {
 		}
 	}
 
+	/*
+	 * String型のaccountを引数にもつ、selectメソッドを追加する
+	 */
+	public User select(Connection connection, String account) {
+
+		PreparedStatement ps = null;
+		try {
+			String sql = "SELECT * FROM users WHERE account = ?";
+
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
+
+			ResultSet rs = ps.executeQuery();
+
+			List<User> users = toUsers(rs);
+			//新規登録の場合→DBにWHEREで指定したアカウントの情報はない
+			if (users.isEmpty()) {
+				return null;
+				//何故か2つ以上登録されていた場合
+			} else if (2 <= users.size()) {
+				throw new IllegalStateException("ユーザーが重複しています");
+				//登録済みの場合→過去に登録した情報（1個）がListに格納される
+			} else {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
 	public void update(Connection connection, User user) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
