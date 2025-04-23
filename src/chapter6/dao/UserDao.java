@@ -101,6 +101,7 @@ public class UserDao {
 			//psを実行→SELECTを実行
 			ResultSet rs = ps.executeQuery();
 
+			//結果のrsをtoUsersメソッドでusersに詰める
 			List<User> users = toUsers(rs);
 			if (users.isEmpty()) {
 				return null;

@@ -38,18 +38,17 @@ public class MessageServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+		throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		//ログの出力
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//セッションを作る
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
-		//クライアント側が入力したテキストを取得する
+		//クライアント側が入力したテキストを変数textとして扱う
 		String text = request.getParameter("text");
 
 		//入力の仕方でエラーがあった場合
@@ -58,7 +57,7 @@ public class MessageServlet extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
-
+		//textをセッターに保存して使えるようにする
 		Message message = new Message();
 		message.setText(text);
 
