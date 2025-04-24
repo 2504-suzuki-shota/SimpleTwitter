@@ -31,6 +31,7 @@ public class UserMessageDao {
 		application.init();
 	}
 
+	//つぶやき表示用selectメソッド
 	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
 		log.info(new Object() {
@@ -40,6 +41,8 @@ public class UserMessageDao {
 
 		PreparedStatement ps = null;
 		try {
+			//表示したい物を取得したい
+			//(つぶやき削除)deleteされてる→ここのSELECTで取得できない→表示されない
 			//sqlインスタンスに指示を1行ずつ追加
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT ");
@@ -54,7 +57,7 @@ public class UserMessageDao {
 			sql.append("INNER JOIN users ");
 			//結合条件 messagesテーブルのuser_idとusersテーブルのidが等しい
 			sql.append("ON messages.user_id = users.id ");
-			//idがnullじゃない場合
+			//(課題②)idがnullじゃない場合→id = suzuki みたいになってて、suzukiのつぶやきだけ表示してほしい
 			if (id != null) {
 				//取り出す条件指定
 				sql.append("WHERE user_id = ? ");
@@ -64,6 +67,7 @@ public class UserMessageDao {
 
 			ps = connection.prepareStatement(sql.toString());
 
+			//(課題②)
 			if (id != null) {
 				ps.setInt(1, id);
 			}
@@ -71,6 +75,7 @@ public class UserMessageDao {
 			ResultSet rs = ps.executeQuery();
 
 			List<UserMessage> messages = toUserMessages(rs);
+			//DBから抽出したものを各々でセットされた集合体を返す
 			return messages;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
@@ -81,6 +86,7 @@ public class UserMessageDao {
 		}
 	}
 
+	//toUserMessagesメソッド→DBから抽出したものを各々でセットしてる
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {

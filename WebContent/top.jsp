@@ -36,7 +36,7 @@
 					</h2>
 				</div>
 				<div class="account">
-					@ <c:out value="${loginUser.account}" />
+					 <c:out value="${loginUser.account}" />
 				</div>
 				<div class="description">
 					<c:out value="${loginUser.description}" />
@@ -69,7 +69,11 @@
 					<div class="message">
 						<div class="account-name">
 							<span class="account">
+								<!-- messagesはDBから抽出したものを各々でセットされた集合体
+								     setAttributeで属性がセットされてて、
+								     messageはbeansでセットされてるから取り出して画面で見せる -->
 								<a href="./?user_id=<c:out value="${message.userId}"/> ">
+									<!-- valueだけでsetしたものを取り出せる取り出したそれをc:outで出力する -->
 									<c:out value="${message.account}" />
 								</a>
 							</span>
@@ -82,6 +86,8 @@
 							<fmt:formatDate value="${message.createdDate}"
 								pattern="yyyy/MM/dd HH:mm:ss" />
 						</div>
+						<!-- name属性はサーブレットに渡すのための名前、valueで具体的な値 -->
+						<input type="hidden" name="id" value="${message.id}">
 						<input type="submit" value="削除">
 					</div>
 				</form>

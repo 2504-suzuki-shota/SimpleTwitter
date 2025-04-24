@@ -65,6 +65,7 @@ public class MessageServlet extends HttpServlet {
 		User user = (User) session.getAttribute("loginUser");
 		message.setUserId(user.getId());
 
+		//messageに格納した情報をDBに登録したいなぁ
 		new MessageService().insert(message);
 		response.sendRedirect("./");
 	}

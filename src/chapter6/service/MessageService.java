@@ -96,7 +96,7 @@ public class MessageService {
 		}
 	}
 
-	public void delete(Message message) {
+	public void delete(int id) {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -104,7 +104,7 @@ public class MessageService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			new MessageDao().delete(connection, message);
+			new MessageDao().delete(connection, id);
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);
