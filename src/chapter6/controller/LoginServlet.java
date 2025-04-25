@@ -52,10 +52,8 @@ public class LoginServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName()
+		+ " : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		String accountOrEmail = request.getParameter("accountOrEmail");
 		String password = request.getParameter("password");

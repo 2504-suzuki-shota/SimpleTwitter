@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,13 +53,13 @@ public class MessageDao {
  			sql.append("    CURRENT_TIMESTAMP "); // updated_date
  			sql.append(")");
 
- 			//合体させたINSERTO文を実行
+ 			//合体させたINSERTO文を仮実行
  			ps = connection.prepareStatement(sql.toString());
-
  			//合体させたINSERTO文の穴埋め
  			//1個目の?に、右側のvalue入れる
  			ps.setInt(1, message.getUserId());
  			ps.setString(2, message.getText());
+ 			//合体させたINSERTO文を本当に実行
  			ps.executeUpdate();
  		} catch (SQLException e) {
  			log.log(Level.SEVERE, new Object() {
@@ -78,8 +80,7 @@ public class MessageDao {
 		try {
 			//SQLのDELETE文を文字列として代入
 			String sql = "DELETE FROM messages WHERE id = ? ";
-
-			//引数にあるSLELCT文で抽出したDBの情報をpsとして扱う
+			//DELETE文を仮実行
 			ps = connection.prepareStatement(sql);
 			//穴埋め
 			ps.setInt(1, id);
@@ -94,28 +95,31 @@ public class MessageDao {
 		}
 	}
 
-	//つぶやき編集用selectメソッド
-	public String select(Connection connection, int id) {
+	//つぶやき画面のテキストボックス内表示用selectメソッド
+	public Message select(Connection connection, int id) {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
+			StringBuilder sql = new StringBuilder();
 			//SQLのDELETE文を文字列として代入
-			String sql = "SELECT text FROM messages WHERE id = ? ";
+			sql.append("SELECT");
+			sql.append("    id, ");
+			sql.append("    user_id, ");
+			sql.append("    text ");
+			sql.append("FROM messages WHERE id = ?");
 
-			//引数にあるsql文で抽出したDBの情報をpsとして扱う
-			ps = connection.prepareStatement(sql);
+			//合体させたSELECT文を仮実行
+			ps = connection.prepareStatement(sql.toString());
 			//穴埋め
 			ps.setInt(1, id);
 			//穴埋めで完成したSLELCT文を実行→1レコードずつrsに入ってる
 			ResultSet rs = ps.executeQuery();
-			//1行下に行かないと取得できない
-			rs.next();
-			new Message().setText(rs.getString("text"));
-			return new Message().getText();
-
+			//カラムごとに砕いて、リストに詰める
+			List<Message> messages = toMessages(rs);
+			return messages.get(0);
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
 			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
@@ -124,4 +128,64 @@ public class MessageDao {
 			close(ps);
 		}
 	}
+
+	//つぶやき編集用updateメソッド
+	public void update(Connection connection, int id, String after_text) {
+
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+				" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+
+		PreparedStatement ps = null;
+		try {
+			StringBuilder sql = new StringBuilder();
+			//SQLのUPDATE文を文字列として代入
+			//更新したいのはmessagesテーブルのテキストと更新日時
+			sql.append("UPDATE messages SET ");
+			sql.append("    text = ?, ");
+			sql.append("    updated_date = CURRENT_TIMESTAMP ");
+			sql.append("WHERE id = ?");
+
+			//合体させたUPDATE文を仮実行
+			ps = connection.prepareStatement(sql.toString());
+			//穴埋め
+			ps.setString(1, after_text);
+			ps.setInt(2, id);
+			//合体させたUPDATE文を本当に実行
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			log.log(Level.SEVERE, new Object() {
+			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
+
+	//ここでカラムごとに砕いてる
+	private List<Message> toMessages(ResultSet rs) throws SQLException {
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+		List<Message> messages = new ArrayList<Message>();
+		try {
+			while (rs.next()) {
+				Message message = new Message();
+				message.setId(rs.getInt("id"));
+				message.setUserId(rs.getInt("user_id"));
+				message.setText(rs.getString("text"));
+				messages.add(message);
+			}
+			return messages;
+		} finally {
+			close(rs);
+		}
+	}
+
+
+
+
+
+
+
+
+
 }

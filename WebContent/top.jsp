@@ -1,6 +1,5 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!-- EL式を使用します -->
 <%@page isELIgnored="false"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -70,7 +69,7 @@
 						<div class="account-name">
 							<span class="account">
 								<a href="./?user_id=<c:out value="${message.userId}"/> ">
-									<!-- valueだけでsetしたものを取り出せる取り出したそれをc:outで出力する -->
+									<!-- javaの変数を出力 -->
 									<c:out value="${message.account}" />
 								</a>
 							</span>

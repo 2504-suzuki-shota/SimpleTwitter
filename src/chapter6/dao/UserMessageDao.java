@@ -42,7 +42,8 @@ public class UserMessageDao {
 		PreparedStatement ps = null;
 		try {
 			//表示したい物を取得したい
-			//(つぶやき削除)deleteされてる→ここのSELECTで取得できない→表示されない
+			//(つぶやき削除)すでにdeleteされてるのでここのSELECTで取得できない→表示されない
+			//(つぶやき編集)すでにupdateされてるので更新後が取得される→更新後が表示される
 			//sqlインスタンスに指示を1行ずつ追加
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT ");
