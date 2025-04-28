@@ -74,7 +74,6 @@ public class EditServlet extends HttpServlet {
 			request.getRequestDispatcher("top.jsp").forward(request, response);
 			return;
 		}
-
 		request.setAttribute("beforeMessages",beforeMessages);
 		//edit.jspにrequest, responseを返す
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
