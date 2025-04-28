@@ -34,7 +34,6 @@ public class SignUpServlet extends HttpServlet {
 	public SignUpServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
-
 	}
 
 	@Override //a href は doGet呼び出し
@@ -53,10 +52,8 @@ public class SignUpServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<String> errorMessages = new ArrayList<String>();
 

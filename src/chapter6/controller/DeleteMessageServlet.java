@@ -45,6 +45,6 @@ public class DeleteMessageServlet extends HttpServlet {
 
 		//ここまででDBの削除は完了してる
 		//表示するのはTopServletの仕事だから呼び出す
-		new TopServlet().doGet(request, response);
+		response.sendRedirect("./");
 	}
 }

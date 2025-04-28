@@ -84,7 +84,7 @@
 						</div>
 						<div class="submit">
 							<!-- 削除と編集ボタンはログインしている人のつぶやきにだけ表示したい -->
-							<c:if test= "${loginUser.account == message.account}">
+							<c:if test= "${loginUser.id == message.userId}">
 								 <form action="edit" method="get">
 									<!-- name属性はサーブレットに渡すのための名前、valueは具体的な値 -->
 									<input type="hidden" name="id" value="${message.id}">

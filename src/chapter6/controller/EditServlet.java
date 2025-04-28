@@ -48,10 +48,10 @@ public class EditServlet extends HttpServlet {
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
 		//①数字以外の文字
-		//②空値になっている
+		//②空値になっている（スペース、改行含む）
 		//この２つだとintに変換できないから困る！
 		HttpSession session = request.getSession();
-		if(!checkId.matches("^[0-9]*$") || StringUtils.isEmpty(checkId)) {
+		if(!checkId.matches("^[0-9]*$") || StringUtils.isBlank(checkId)) {
 			String errorMessage ="不正なパラメータが入力されました";
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
@@ -104,8 +104,8 @@ public class EditServlet extends HttpServlet {
 		new MessageService().update(id, afterText);
 
 		//ここまででDBの更新は終わっている
-		//表示はtopサーブレットの仕事
-		new TopServlet().doGet(request, response);
+		//表示はtopサーブレットの仕事→「./」でtopサーブレットの@/index.jspを呼び出せる→doGet呼び出しと同じ事になる
+		response.sendRedirect("./");
 	}
 
 	private boolean isValid(String text, List<String> errorMessages) {
