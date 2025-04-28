@@ -7,8 +7,7 @@
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 //
-//import chapter6.beans.User;
-//import chapter6.dao.UserDao;
+//import chapter6.dao.CommentDao;
 //import chapter6.logging.InitApplication;
 //
 //public class CommentService {
@@ -28,7 +27,7 @@
 //
 //	}
 //
-//	public void insert(@@@@@@@@@) {
+//	public void insert(String comment, int id) {
 //
 //		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 //		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -36,7 +35,7 @@
 //		Connection connection = null;
 //		try {
 //			connection = getConnection();
-//			new CommentDao().insert(connection, @@@@@@);
+//			new CommentDao().insert(connection, comment, id);
 //			commit(connection);
 //		} catch (RuntimeException e) {
 //			rollback(connection);

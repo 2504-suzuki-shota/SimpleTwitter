@@ -47,11 +47,11 @@ public class EditServlet extends HttpServlet {
 		String checkId = request.getParameter("id");
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
-		//①数字以外の文字
-		//②空値になっている（スペース、改行含む）
+		//①空値になっている（スペース、改行含む）　nullチェック先にやる！
+		//②数字以外の文字
 		//この２つだとintに変換できないから困る！
 		HttpSession session = request.getSession();
-		if(!checkId.matches("^[0-9]*$") || StringUtils.isBlank(checkId)) {
+		if(StringUtils.isBlank(checkId) || !checkId.matches("^[0-9]*$")) {
 			String errorMessage ="不正なパラメータが入力されました";
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
@@ -100,10 +100,11 @@ public class EditServlet extends HttpServlet {
 			return;
 		}
 
-		//つぶやきのレコードを特定できるのはid
-		int id = Integer.parseInt(request.getParameter("id"));
+		//getMessageメソッドを使ってrequestの中身をbeansに入れてまとめちゃう
+		Message message = getMessage(request);
+
 		//Daoで使いたいから運ぶ＆更新だけしたいのでvoid
-		new MessageService().update(id, afterText);
+		new MessageService().update(message);
 
 		//ここまででDBの更新は終わっている
 		//表示はtopサーブレットの仕事→「./」でtopサーブレットの@/index.jspを呼び出せる→doGet呼び出しと同じ事になる
@@ -127,4 +128,35 @@ public class EditServlet extends HttpServlet {
 		}
 		return true;
 	}
+
+	public Message getMessage(HttpServletRequest request) {
+
+		Message message = new Message();
+		message.setId(Integer.parseInt(request.getParameter("id")));
+		message.setText(request.getParameter("text"));
+		return message ;
+
+		//レビュー前はこの二つをそれぞれ用意してたけどセッターゲッター入れたら一つでいいじゃん
+		//つぶやきのレコードを特定できるのはidだからDaoまで運ぶ
+		//int id = Integer.parseInt(request.getParameter("id"));
+		//入力された更新後のテキストもDaoで使うから運ぶ
+		//String afterText =request.getParameter("text");
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

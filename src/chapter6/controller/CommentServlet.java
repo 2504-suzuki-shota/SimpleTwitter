@@ -8,8 +8,11 @@
 //import javax.servlet.http.HttpServlet;
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpSession;
 //
+//import chapter6.beans.User;
 //import chapter6.logging.InitApplication;
+//import chapter6.service.CommentService;
 //
 //@WebServlet(urlPatterns = { "/comment" })
 //
@@ -37,11 +40,15 @@
 //		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 //		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 //
-//		Sting comment = request.getParameter("comment");
-//		int id = request.getParameter("id");
+//		HttpSession session = request.getSession();
 //
+//		String comment = request.getParameter("comment");
+//		int id = Integer.parseInt(request.getParameter("id"));
 //
-//		new CommentService().insert(@@@@@);
+//		User user = (User) session.getAttribute("loginUser");
+//		message.setUserId(user.getId());
+//
+//		new CommentService().insert(comment, id);
 //
 //
 //	}
