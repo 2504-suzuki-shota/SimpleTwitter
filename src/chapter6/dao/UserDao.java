@@ -37,6 +37,7 @@ public class UserDao {
 
 	public void insert(Connection connection, User user) {
 
+		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
@@ -123,6 +124,7 @@ public class UserDao {
 
 	private List<User> toUsers(ResultSet rs) throws SQLException {
 
+		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
@@ -148,6 +150,7 @@ public class UserDao {
 
 	public User select(Connection connection, int id) {
 
+		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
@@ -213,6 +216,7 @@ public class UserDao {
 
 	public void update(Connection connection, User user) {
 
+		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
@@ -249,15 +253,14 @@ public class UserDao {
 				ps.setInt(5, user.getId());
 			}
 
-			//UPDATE文実行
+			//UPDATE文本実行
 			int count = ps.executeUpdate();
 			if (count == 0) {
 				log.log(Level.SEVERE, "更新対象のレコードが存在しません", new NoRowsUpdatedRuntimeException());
 				throw new NoRowsUpdatedRuntimeException();
 			}
 		} catch (SQLException e) {
-			log.log(Level.SEVERE, new Object() {
-			}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+			log.log(Level.SEVERE, new Object() {}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 			throw new SQLRuntimeException(e);
 		} finally {
 			close(ps);

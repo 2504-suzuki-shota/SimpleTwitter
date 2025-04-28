@@ -46,6 +46,8 @@ public class MessageServlet extends HttpServlet {
 
 		//セッションを作る
 		HttpSession session = request.getSession();
+
+		//エラーメッセージ入れる用のリスト
 		List<String> errorMessages = new ArrayList<String>();
 
 		//クライアント側が入力したテキストを変数textとして扱う
@@ -57,6 +59,7 @@ public class MessageServlet extends HttpServlet {
 			response.sendRedirect("./");
 			return;
 		}
+
 		//textをセッターに保存して使えるようにする
 		Message message = new Message();
 		message.setText(text);
@@ -65,7 +68,7 @@ public class MessageServlet extends HttpServlet {
 		User user = (User) session.getAttribute("loginUser");
 		message.setUserId(user.getId());
 
-		//messageに格納した情報をDBに登録したいなぁ
+		//messageに格納した情報をDBに登録
 		new MessageService().insert(message);
 		response.sendRedirect("./");
 	}

@@ -39,10 +39,8 @@ public class TopServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//ログの出力
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		boolean isShowMessageForm = false;
 		User user = (User) request.getSession().getAttribute("loginUser");

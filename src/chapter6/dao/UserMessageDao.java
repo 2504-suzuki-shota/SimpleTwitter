@@ -34,10 +34,9 @@ public class UserMessageDao {
 	//つぶやき表示用selectメソッド
 	public List<UserMessage> select(Connection connection, Integer id, int num) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-		}.getClass().getEnclosingMethod().getName());
+		//ログの出力
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		PreparedStatement ps = null;
 		try {
@@ -90,10 +89,9 @@ public class UserMessageDao {
 	//toUserMessagesメソッド→DBから抽出したものを各々でセットしてる
 	private List<UserMessage> toUserMessages(ResultSet rs) throws SQLException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-		}.getClass().getEnclosingMethod().getName());
+		//ログの出力
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		List<UserMessage> messages = new ArrayList<UserMessage>();
 		try {
@@ -105,7 +103,6 @@ public class UserMessageDao {
 				message.setAccount(rs.getString("account"));
 				message.setName(rs.getString("name"));
 				message.setCreatedDate(rs.getTimestamp("created_date"));
-
 				messages.add(message);
 			}
 			return messages;
