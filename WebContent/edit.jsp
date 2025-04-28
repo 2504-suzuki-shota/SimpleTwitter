@@ -25,8 +25,16 @@
 			<!-- action先がある@持ちのサーブレットに移動してmethodのdoPostが呼び出される -->
 			<form action="edit" method="post"><br />
 				つぶやき<br />
-					<!-- テキストエリアタグの仕様に改行は含まれている→ここはpreいらない -->
-					<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${beforeMessages.text}" /></textarea><br />
+					<!-- テキストエリアタグの仕様に改行は含まれている→ここはpreいらない
+						　エラーの場合でもテキスト保持させたいから分岐です-->
+					<c:choose>
+						<c:when test="${ empty errorMessages }">
+							<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${beforeMessages.text}" /></textarea>
+						</c:when>
+						<c:otherwise>
+							<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${afterText}" /></textarea>
+						</c:otherwise>
+					</c:choose><br />
 					<input type="hidden" name="id" value="${beforeMessages.id}">
 					<input type="submit" value="更新" /> <br />
 			</form>

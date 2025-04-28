@@ -93,6 +93,8 @@ public class EditServlet extends HttpServlet {
 		List<String> errorMessages = new ArrayList<String>();
 		if (!isValid(afterText, errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
+			//エラーだけど入力内容を表示させたい
+			session.setAttribute("afterText", afterText);
 			//エラーメッセージを編集画面に表示させたい
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			return;
