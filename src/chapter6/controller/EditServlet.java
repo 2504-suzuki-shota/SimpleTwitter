@@ -66,11 +66,11 @@ public class EditServlet extends HttpServlet {
 		int id = Integer.parseInt(checkId);
 
 		//messagesには更新対象のmessagesテーブルのid,user_id,textが入ってる
-		Message messages = new MessageService().select(id);
+		Message edits = new MessageService().select(id);
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
 		//③存在しない
-		if(messages == null) {
+		if(edits == null) {
 			String errorMessage =INVALID_PARAMETER;
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
@@ -79,7 +79,7 @@ public class EditServlet extends HttpServlet {
 			return;
 		}
 
-		request.setAttribute("messages",messages);
+		request.setAttribute("edits",edits);
 		//編集画面で更新前のテキストを表示したい
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
@@ -99,7 +99,7 @@ public class EditServlet extends HttpServlet {
 		if (!isValid(edit.getText(), errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
 			//エラーだけど入力内容を表示させたい
-			session.setAttribute("messages", edit);
+			session.setAttribute("edit", edit);
 			//エラーメッセージを編集画面に表示させたい
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			return;
@@ -112,6 +112,18 @@ public class EditServlet extends HttpServlet {
 		//表示はtopサーブレットの仕事→「./」でtopサーブレットの@/index.jspを呼び出せる
 		//→doGet呼び出しと同じ→違いは？
 		response.sendRedirect("./");
+	}
+
+	public Message getMessage(HttpServletRequest request) {
+
+		Message edit = new Message();
+		edit.setId(Integer.parseInt(request.getParameter("id")));
+		edit.setText(request.getParameter("text"));
+		return edit ;
+
+		//レビュー前はこの２つをそれぞれ用意してたけどbean使えば１つで済む
+		//int id = Integer.parseInt(request.getParameter("id"));
+		//String afterText =request.getParameter("text");
 	}
 
 	private boolean isValid(String text, List<String> errorMessages) {
@@ -130,18 +142,6 @@ public class EditServlet extends HttpServlet {
 			return false;
 		}
 		return true;
-	}
-
-	public Message getMessage(HttpServletRequest request) {
-
-		Message edit = new Message();
-		edit.setId(Integer.parseInt(request.getParameter("id")));
-		edit.setText(request.getParameter("text"));
-		return edit ;
-
-		//レビュー前はこの２つをそれぞれ用意してたけどbean使えば１つで済む
-		//int id = Integer.parseInt(request.getParameter("id"));
-		//String afterText =request.getParameter("text");
 	}
 }
 

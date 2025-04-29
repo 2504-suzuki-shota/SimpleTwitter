@@ -136,16 +136,16 @@ public class MessageDao {
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
-		List<Message> messages = new ArrayList<Message>();
+		List<Message> edits = new ArrayList<Message>();
 		try {
 			while (rs.next()) {
-				Message message = new Message();
-				message.setId(rs.getInt("id"));
-				message.setUserId(rs.getInt("user_id"));
-				message.setText(rs.getString("text"));
-				messages.add(message);
+				Message edit = new Message();
+				edit.setId(rs.getInt("id"));
+				edit.setUserId(rs.getInt("user_id"));
+				edit.setText(rs.getString("text"));
+				edits.add(edit);
 			}
-			return messages;
+			return edits;
 		} finally {
 			close(rs);
 		}

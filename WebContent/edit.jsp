@@ -26,8 +26,8 @@
 			<!-- action先がある@持ちのサーブレットに移動してmethodのdoPostが呼び出される -->
 			<form action="edit" method="post"><br />
 				つぶやき<br />
-				<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${edit.text}" /></textarea>
-				<input type="hidden" name="id" value="${edit.id}"><br />
+				<textarea name="text" cols="100" rows="5" class="tweet-box"><c:out value="${edits.text}" /></textarea>
+				<input type="hidden" name="id" value="${edits.id}"><br />
 				<input type="submit" value="更新" /><br />
 			</form>
 			<a href="./">戻る</a>

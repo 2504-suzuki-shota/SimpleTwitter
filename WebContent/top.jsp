@@ -99,35 +99,6 @@
 								</form>
 							</c:if>
 						</div>
-						<!-- 返信系 -->
-						<div class="comment">
-							<!-- 返信の表示 -->
-							<c:if test="${ isShowMessageForm }">
-								<!-- 返信があれば… -->
-								<c:if test="${ empty comments }">
-									<div class="account-name">
-										<span class="account">
-											<c:out value="${comment.account}" />
-										</span>
-										<span class="name">
-											<c:out value="${comment.name}" />
-										</span>
-									</div>
-									<div class="text">
-										<pre><c:out value="${comment.text}" /></pre>
-									</div>
-									<div class="date">
-										<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
-									</div>
-								</c:if>
-							<!-- 返信投稿 -->
-								<form action="comment" method="post">
-									返信<br />
-									<textarea name="comment" cols="100" rows="5" class="tweet-box"></textarea><br />
-									<input type="hidden" name="id" value="${message.id}">										<input type="submit" value="返信">（140文字まで）
-								</form>
-							</c:if>
-						</div>
 					</div>
 				</c:forEach>
 			</div>
