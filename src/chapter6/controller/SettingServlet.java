@@ -66,8 +66,9 @@ public class SettingServlet extends HttpServlet {
 
 		//request内容を整理
 		User user = getUser(request);
-		//エラーがない場合は更新
+
 		if (isValid(user, errorMessages)) {
+			//エラーがない場合は更新
 			try {
 				new UserService().update(user);
 			} catch (NoRowsUpdatedRuntimeException e) {
