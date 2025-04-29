@@ -91,22 +91,22 @@ public class EditServlet extends HttpServlet {
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//更新に必要な情報を1つにまとめている→入力内容(afterText)と更新対象のid
-		Message messages = getMessage(request);
+		Message edit = getMessage(request);
 
 		//バリデーション処理
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
-		if (!isValid(messages.getText(), errorMessages)) {
+		if (!isValid(edit.getText(), errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
 			//エラーだけど入力内容を表示させたい
-			session.setAttribute("messages", messages);
+			session.setAttribute("messages", edit);
 			//エラーメッセージを編集画面に表示させたい
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			return;
 		}
 
 		//Daoで使いたいから運ぶ＆更新だけしたいのでvoid
-		new MessageService().update(messages);
+		new MessageService().update(edit);
 
 		//ここまででDBの更新は終わっている
 		//表示はtopサーブレットの仕事→「./」でtopサーブレットの@/index.jspを呼び出せる
@@ -134,10 +134,10 @@ public class EditServlet extends HttpServlet {
 
 	public Message getMessage(HttpServletRequest request) {
 
-		Message messages = new Message();
-		messages.setId(Integer.parseInt(request.getParameter("id")));
-		messages.setText(request.getParameter("text"));
-		return messages ;
+		Message edit = new Message();
+		edit.setId(Integer.parseInt(request.getParameter("id")));
+		edit.setText(request.getParameter("text"));
+		return edit ;
 
 		//レビュー前はこの２つをそれぞれ用意してたけどbean使えば１つで済む
 		//int id = Integer.parseInt(request.getParameter("id"));

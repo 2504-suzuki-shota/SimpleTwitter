@@ -47,12 +47,19 @@ public class TopServlet extends HttpServlet {
 		if (user != null) {
 			isShowMessageForm = true;
 		}
-
+		//☆つぶやき表示用
+		//（追加課題③）
 		String userId = request.getParameter("user_id");
 		List<UserMessage> messages = new MessageService().select(userId);
-
 		//messagesはDBから抽出したものを各々でセットした集合体
 		request.setAttribute("messages", messages);
+
+//		//★返信表示用
+//		//返信は全て取得したいから引数なし→課題③実装前と同じ
+//		List<UserMessage> comments = new CommentService().select();
+//		//commentsはDBから抽出したものを各々でセットした集合体
+//		request.setAttribute("comments", comments);
+
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		//top.jspにこれらの情報渡す
 		request.getRequestDispatcher("/top.jsp").forward(request, response);

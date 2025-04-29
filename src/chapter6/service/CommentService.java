@@ -24,7 +24,6 @@ public class CommentService {
 	public CommentService() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
-
 	}
 
 	public void insert(String comment, int id, int userId) {
@@ -51,4 +50,30 @@ public class CommentService {
 			close(connection);
 		}
 	}
+
+//	public List<UserMessage> select(){
+//		//ログの出力
+//		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+//		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+//
+//		final int LIMIT_NUM = 1000;
+//
+//		Connection connection = null;
+//		try {
+//			connection = getConnection();
+//			List<UserMessage> comments = new UserCommentDao().select(connection, LIMIT_NUM);
+//			commit(connection);
+//			return comments;
+//		} catch (RuntimeException e) {
+//			rollback(connection);
+//			log.log(Level.SEVERE, new Object() {}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+//			throw e;
+//		} catch (Error e) {
+//			rollback(connection);
+//			log.log(Level.SEVERE, new Object() {}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+//			throw e;
+//		} finally {
+//			close(connection);
+//		}
+//	}
 }

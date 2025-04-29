@@ -152,7 +152,7 @@ public class MessageDao {
 	}
 
 	//つぶやき編集用updateメソッド
-	public void update(Connection connection, Message message) {
+	public void update(Connection connection, Message edit) {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -170,8 +170,8 @@ public class MessageDao {
 			//合体させたUPDATE文を仮実行
 			ps = connection.prepareStatement(sql.toString());
 			//穴埋め
-			ps.setString(1, message.getText());
-			ps.setInt(2, message.getId());
+			ps.setString(1, edit.getText());
+			ps.setInt(2, edit.getId());
 			//合体させたUPDATE文を本当に実行
 			ps.executeUpdate();
 		} catch (SQLException e) {

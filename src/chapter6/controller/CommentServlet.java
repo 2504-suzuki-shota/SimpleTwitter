@@ -49,17 +49,6 @@ public class CommentServlet extends HttpServlet {
 		int userId = user.getId();
 
 		new CommentService().insert(comment, messageId, userId);
-
-
+		response.sendRedirect("./");
 	}
-
-
-
-
-
-
-
-
-
-
 }
