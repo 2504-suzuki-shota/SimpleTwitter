@@ -57,7 +57,6 @@ public class EditServlet extends HttpServlet {
 			String errorMessage =INVALID_PARAMETER;
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
-			//request.getRequestDispatcher("top.jsp").forward(request, response);
 			response.sendRedirect("./");
 			return;
 		}
@@ -74,7 +73,6 @@ public class EditServlet extends HttpServlet {
 			String errorMessage =INVALID_PARAMETER;
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
-			//request.getRequestDispatcher("top.jsp").forward(request, response);との違いは？
 			response.sendRedirect("./");
 			return;
 		}
@@ -144,7 +142,7 @@ public class EditServlet extends HttpServlet {
 	}
 }
 
-////修正前の考え方
+////メモ修正前の考え方
 //①
 //＊beforeMessagesには更新対象のmessagesテーブルのid,user_id,textが入ってる
 //Message beforeMessages = new MessageService().select(id);
