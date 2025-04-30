@@ -39,6 +39,7 @@
 //			sql.append("    comments.id as id, ");
 //			sql.append("    comments.text as text, ");
 //			sql.append("    comments.user_id as user_id, ");
+//			sql.append("    comments.message_id as message_id, ");
 //			sql.append("    users.name as name, ");
 //			sql.append("    users.account as account, ");
 //			sql.append("    comments.created_date as created_date ");

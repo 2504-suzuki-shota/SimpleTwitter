@@ -54,8 +54,8 @@ public class EditServlet extends HttpServlet {
 		//この２つだとintに変換できないから困る！
 		HttpSession session = request.getSession();
 		if(StringUtils.isBlank(checkId) || !checkId.matches("^[0-9]*$")) {
-			String errorMessage =INVALID_PARAMETER;
-			session.setAttribute("errorMessages", errorMessage);
+			//定数だからそのまま使おうよ
+			session.setAttribute("errorMessages", INVALID_PARAMETER);
 			//エラーメッセージをトップ画面に表示させたい
 			response.sendRedirect("./");
 			return;
@@ -64,20 +64,19 @@ public class EditServlet extends HttpServlet {
 		//無事にintにできました→Daoでid使いたいから運ぶ
 		int id = Integer.parseInt(checkId);
 
-		//messagesには更新対象のmessagesテーブルのid,user_id,textが入ってる
-		Message edit = new MessageService().select(id);
+		//editには更新対象のmessagesテーブルのid,user_id,textが入ってる
+		Message editMessage = new MessageService().select(id);
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
 		//③存在しない
-		if(edit == null) {
-			String errorMessage =INVALID_PARAMETER;
-			session.setAttribute("errorMessages", errorMessage);
+		if(editMessage == null) {
+			session.setAttribute("errorMessages", INVALID_PARAMETER);
 			//エラーメッセージをトップ画面に表示させたい
 			response.sendRedirect("./");
 			return;
 		}
 
-		request.setAttribute("edit",edit);
+		request.setAttribute("editMessage",editMessage);
 		//編集画面で更新前のテキストを表示したい
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
@@ -89,22 +88,21 @@ public class EditServlet extends HttpServlet {
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//更新に必要な情報を1つにまとめている→入力内容(afterText)と更新対象のid
-		Message edit = getMessage(request);
+		Message editMessage = getMessage(request);
 
 		//バリデーション処理
-		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
-		if (!isValid(edit.getText(), errorMessages)) {
-			session.setAttribute("errorMessages", errorMessages);
+		if (!isValid(editMessage.getText(), errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
 			//エラーだけど入力内容を表示させたい
-			session.setAttribute("edit", edit);
+			request.setAttribute("editMessage", editMessage);
 			//エラーメッセージを編集画面に表示させたい
 			request.getRequestDispatcher("edit.jsp").forward(request, response);
 			return;
 		}
 
 		//Daoで使いたいから運ぶ＆更新だけしたいのでvoid
-		new MessageService().update(edit);
+		new MessageService().update(editMessage);
 
 		//ここまででDBの更新は終わっている
 		//表示はtopサーブレットの仕事
@@ -113,10 +111,10 @@ public class EditServlet extends HttpServlet {
 
 	public Message getMessage(HttpServletRequest request) {
 
-		Message edit = new Message();
-		edit.setId(Integer.parseInt(request.getParameter("id")));
-		edit.setText(request.getParameter("text"));
-		return edit ;
+		Message editMessage = new Message();
+		editMessage.setId(Integer.parseInt(request.getParameter("id")));
+		editMessage.setText(request.getParameter("text"));
+		return editMessage ;
 
 		//レビュー前はこの２つをそれぞれ用意してたけどbean使えば１つで済む
 		//int id = Integer.parseInt(request.getParameter("id"));

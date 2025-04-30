@@ -10,6 +10,7 @@
 //import javax.servlet.http.HttpServletResponse;
 //import javax.servlet.http.HttpSession;
 //
+//import chapter6.beans.Comment;
 //import chapter6.beans.User;
 //import chapter6.logging.InitApplication;
 //import chapter6.service.CommentService;
@@ -40,6 +41,7 @@
 //		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 //		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 //
+//		Comment comment = getComment(request);
 //		HttpSession session = request.getSession();
 //
 //		String comment = request.getParameter("comment");
@@ -47,8 +49,14 @@
 //
 //		User user = (User)session.getAttribute("loginUser");
 //		int userId = user.getId();
-//
+//		//comments用のbeans作ってよい？引数多い
 //		new CommentService().insert(comment, messageId, userId);
 //		response.sendRedirect("./");
 //	}
+//
+//	public Comment getComment(HttpServletRequest request);
+//
+//
+//
+//
 //}
