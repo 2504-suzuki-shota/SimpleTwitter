@@ -66,11 +66,11 @@ public class EditServlet extends HttpServlet {
 		int id = Integer.parseInt(checkId);
 
 		//messagesには更新対象のmessagesテーブルのid,user_id,textが入ってる
-		Message edits = new MessageService().select(id);
+		Message edit = new MessageService().select(id);
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
 		//③存在しない
-		if(edits == null) {
+		if(edit == null) {
 			String errorMessage =INVALID_PARAMETER;
 			session.setAttribute("errorMessages", errorMessage);
 			//エラーメッセージをトップ画面に表示させたい
@@ -79,7 +79,7 @@ public class EditServlet extends HttpServlet {
 			return;
 		}
 
-		request.setAttribute("edits",edits);
+		request.setAttribute("edit",edit);
 		//編集画面で更新前のテキストを表示したい
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
@@ -109,8 +109,7 @@ public class EditServlet extends HttpServlet {
 		new MessageService().update(edit);
 
 		//ここまででDBの更新は終わっている
-		//表示はtopサーブレットの仕事→「./」でtopサーブレットの@/index.jspを呼び出せる
-		//→doGet呼び出しと同じ→違いは？
+		//表示はtopサーブレットの仕事
 		response.sendRedirect("./");
 	}
 
