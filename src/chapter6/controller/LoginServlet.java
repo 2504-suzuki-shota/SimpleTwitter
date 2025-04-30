@@ -38,11 +38,17 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
+		HttpSession session = request.getSession();
+
+		//（ログインフィルター）もしログインしてなければエラーメッセージ表示したい
+		if(session.getAttribute("loginUser") == null) {
+			//エラーメッセージは今回のやり取りでしか使わないからrequestでセット
+			String errorMessage = "ログインしてください！！";
+			request.setAttribute("errorMessages", errorMessage);
+		}
 		//login.jspにrequest, responseを返す
 		request.getRequestDispatcher("login.jsp").forward(request, response);
 	}
@@ -59,6 +65,8 @@ public class LoginServlet extends HttpServlet {
 		String password = request.getParameter("password");
 
 		User user = new UserService().select(accountOrEmail, password);
+
+
 		if (user == null) {
 			List<String> errorMessages = new ArrayList<String>();
 			errorMessages.add("ログインに失敗しました");
@@ -67,7 +75,7 @@ public class LoginServlet extends HttpServlet {
 			return;
 		}
 
-		//セッションに("loginUser", user)を保存
+		//セッションに("loginUser", user)を保存→ログイン中はずっと使える
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", user);
 		response.sendRedirect("./");

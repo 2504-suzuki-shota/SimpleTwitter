@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import chapter6.beans.User;
 import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
+import chapter6.service.CommentService;
 import chapter6.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp" })
@@ -54,11 +55,11 @@ public class TopServlet extends HttpServlet {
 		//messagesはDBから抽出したものを各々でセットした集合体
 		request.setAttribute("messages", messages);
 
-//		//★返信表示用
-//		//返信は全て取得したいから引数なし→課題③実装前と同じ
-//		List<UserMessage> comments = new CommentService().select();
-//		//commentsはDBから抽出したものを各々でセットした集合体
-//		request.setAttribute("comments", comments);
+		//★返信表示用
+		//返信は全て取得したいから引数なし→課題③実装前と同じ
+		List<UserMessage> comments = new CommentService().select();
+		//commentsはDBから抽出したものを各々でセットした集合体
+		request.setAttribute("comments", comments);
 
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 		//top.jspにこれらの情報渡す

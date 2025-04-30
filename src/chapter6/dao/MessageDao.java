@@ -31,7 +31,7 @@ public class MessageDao {
 		application.init();
 	}
 
-	//つぶやき登録用selectメソッド
+	//つぶやき登録用INSERTOメソッド
 	public void insert(Connection connection, Message message) {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +

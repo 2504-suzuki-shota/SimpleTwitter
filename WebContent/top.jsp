@@ -15,17 +15,22 @@
 	<body>
 		<div class="main-contents">
 			<div class="header">
+			<!-- ログインしてない時だけ表示 -->
 				<c:if test="${ empty loginUser }">
 					<!-- 押した方の@があるサーブレッドでdoGet発動 -->
 					<a href="login">ログイン</a>
 					<a href="signup">登録する</a>
 				</c:if>
+
+				<!-- ログインしている時だけ表示 -->
 				<c:if test="${ not empty loginUser }">
 					<a href="./">ホーム</a>
 					<a href="setting">設定</a>
 					<a href="logout">ログアウト</a>
 				</c:if>
 			</div>
+
+			<!-- ログインしている時だけ表示 -->
 			<c:if test="${ not empty loginUser }">
 				<div class="profile">
 					<div class="name">
@@ -41,6 +46,8 @@
 					</div>
 				</div>
 			</c:if>
+
+			<!-- エラーメッセージがある時だけ表示 -->
 			<c:if test="${ not empty errorMessages }">
 				<div class="errorMessages">
 					<ul>
@@ -53,6 +60,7 @@
 			</c:if>
 
 			<div class="form-area">
+				<!-- ログインしている時だけ表示 -->
 				<c:if test="${ isShowMessageForm }">
 					<form action="message" method="post">
 						いま、どうしてる？<br />
@@ -62,6 +70,7 @@
 				</c:if>
 			</div>
 
+			<!-- ログイン関係なく表示 -->
 			<div class="messages">
 				<c:forEach items="${messages}" var="message">
 					<div class="message">
@@ -76,6 +85,7 @@
 								<c:out value="${message.name}" />
 							</span>
 						</div>
+
 						<!-- テキスト -->
 						<div class="text">
 							<!-- 改行で表示させたい -->
@@ -84,6 +94,7 @@
 						<div class="date">
 							<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 						</div>
+
 						<!-- 削除と編集 -->
 						<div class="submit">
 							<!-- 削除と編集ボタンはログインしている人のつぶやきにだけ表示したい -->
@@ -98,6 +109,43 @@
 									<input type="submit" value="削除">
 								</form>
 							</c:if>
+						</div>
+
+						<!-- 返信系 -->
+						<div class="comment">
+							<!-- 返信の表示 -->
+							<div class="comment-display">
+								<c:forEach items="${comments}" var="comment">
+									<!-- 元コメントに対して返信がある時だけ表示 -->
+									<c:if test="${ message.id == comment.textId }">
+										<div class="account-name">
+											<span class="account">
+												<c:out value="${comment.account}" />
+											</span>
+											<span class="name">
+												<c:out value="${comment.name}" />
+											</span>
+										</div>
+										<div class="text">
+											<pre><c:out value="${comment.text}" /></pre>
+										</div>
+										<div class="date">
+											<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+
+							<!-- 返信フォームと返信ボタン、ログインしている時だけ表示 -->
+							<div class="comment-area">
+								<c:if test="${ isShowMessageForm }">
+									<form action="comment" method="post">
+										返信<br />
+										<textarea name="comment" cols="100" rows="5" class="tweet-box"></textarea><br />
+										<input type="hidden" name="id" value="${message.id}">										<input type="submit" value="返信">（140文字まで）
+									</form>
+								</c:if>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
