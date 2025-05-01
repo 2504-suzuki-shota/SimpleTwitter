@@ -43,8 +43,9 @@ public class LoginServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		//（ログインフィルター）もしログインしてなければエラーメッセージ表示したい
-		if(session.getAttribute("loginUser") == null) {
+		//（ログインフィルター）ログインフィルターに引っかかった場合のみエラーメッセージを表示したい
+		//通常のログインでは表示したくない
+		if(session.getAttribute("check") != null) {
 			//エラーメッセージは今回のやり取りでしか使わないからrequestでセット
 			String errorMessage = "ログインしてください！！";
 			request.setAttribute("errorMessages", errorMessage);

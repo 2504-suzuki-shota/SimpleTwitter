@@ -57,7 +57,7 @@ public class MessageService {
 		}
 	}
 
-	public List<UserMessage> select(String userId, Date start) {
+	public List<UserMessage> select(String userId, String start, String end) {
 
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -76,32 +76,27 @@ public class MessageService {
 			}
 
 			//（絞り込み）
-			//日時表記のフォーマット
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			String begin = null;
+			//開始日の指定がない時
+			if(StringUtils.isBlank(start)) {
+				//デフォルトstart（開始日時）
+				begin = "2020-01-01 00:00:00";
+			} else {
+				//入力された日付(日付変わった直後から)
+				begin = start + " 00:00:00";
+			}
 
-			//デフォルトstart開始日時 String→Date型変換
-			Date start = ("2020-01-01 00:00:00");
+			String finish = null;
+			//終了日の指定がない時
+			if(StringUtils.isBlank(end)) {
+				//デフォルトend（現在日時の取得）
+				finish = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(new Date());
+			} else {
+				//入力された日付(日付変わる直前まで)
+				finish = end + " 23:59:59";
+			}
 
-
-//			if(start == 赤色) {
-//				//デフォルトstart開始日時
-//				Date start = format.parse("2020-01-01 00:00:00");
-//			} else {
-//				//入力された日付(日付変わった直後から)
-//				Date start = start + " 00:00:00";
-//			}
-//
-//			if(end == 赤色) {
-//				//デフォルトend現在日時の取得
-//				//Date end = 現在日時取得→SQLのDate型に変換したい
-//			} else {
-//				//入力された日付(日付変わる直前まで)
-//				Date end = end + " 23:59:59";
-//			}
-
-
-
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, begin, finish);
 			commit(connection);
 			return messages;
 		} catch (RuntimeException e) {

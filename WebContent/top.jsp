@@ -30,14 +30,19 @@
 				</c:if>
 			</div>
 
-			<!-- ログインしている時だけ表示 -->
-			<c:if test="${ not empty loginUser }">
-				<div class="date">
+			<!-- ログイン関係なく表示 -->
+			<div class="date">
+				<form action="./" method="get">
 					日付
 					<input type ="date" name ="start">
 					～
 					<input type ="date" name ="end">
-				</div>
+					<input type ="submit" value ="絞込">
+				</form>
+			</div>
+
+			<!-- ログインしている時だけ表示 -->
+			<c:if test="${ not empty loginUser }">
 				<div class="profile">
 					<div class="name">
 						<h2>

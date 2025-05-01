@@ -27,13 +27,15 @@ public class LoginFilter implements Filter {
 		//セッション獲得
 		HttpSession session = httpRequest.getSession();
 
-		//ログインしてる？＝セッションがログイン情報持ってる？（loginServletでSetしてるから）
-		if (session.getAttribute("loginUser") != null) {
-			// サーブレットを実行
-			chain.doFilter(request, response);
-		} else {
+		//ログインしていない場合
+		if (session.getAttribute("loginUser") == null) {
+			String check = "ログインフィルターチェック用";
+			session.setAttribute("check", check);
 			//ログイン画面表示したい→ログインサーブレットのdoGetを実行すれば表示されるからリダイレクト
 			httpResponse.sendRedirect("./login");
+		} else {
+			// サーブレットを実行
+			chain.doFilter(request, response);
 		}
 	}
 

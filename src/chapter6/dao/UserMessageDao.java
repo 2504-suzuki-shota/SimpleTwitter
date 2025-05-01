@@ -32,7 +32,7 @@ public class UserMessageDao {
 	}
 
 	//つぶやき表示用selectメソッド
-	public List<UserMessage> select(Connection connection, Integer id, int num, @@@) {
+	public List<UserMessage> select(Connection connection, Integer id, int num,String start, String end) {
 
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -71,8 +71,8 @@ public class UserMessageDao {
 			ps = connection.prepareStatement(sql.toString());
 
 			//（絞り込み）
-			ps.setDate(1, start);
-			ps.setDate(2, end);
+			ps.setString(1, start);
+			ps.setString(2, end);
 
 			//(課題②)
 			if (id != null) {
