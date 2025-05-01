@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +57,7 @@ public class MessageService {
 		}
 	}
 
-	public List<UserMessage> select(String userId) {
+	public List<UserMessage> select(String userId, Date start) {
 
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -72,6 +74,33 @@ public class MessageService {
 			if (!StringUtils.isEmpty(userId)) {
 				id = Integer.parseInt(userId);
 			}
+
+			//（絞り込み）
+			//日時表記のフォーマット
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+			//デフォルトstart開始日時 String→Date型変換
+			Date start = ("2020-01-01 00:00:00");
+
+
+//			if(start == 赤色) {
+//				//デフォルトstart開始日時
+//				Date start = format.parse("2020-01-01 00:00:00");
+//			} else {
+//				//入力された日付(日付変わった直後から)
+//				Date start = start + " 00:00:00";
+//			}
+//
+//			if(end == 赤色) {
+//				//デフォルトend現在日時の取得
+//				//Date end = 現在日時取得→SQLのDate型に変換したい
+//			} else {
+//				//入力された日付(日付変わる直前まで)
+//				Date end = end + " 23:59:59";
+//			}
+
+
+
 			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
 			commit(connection);
 			return messages;

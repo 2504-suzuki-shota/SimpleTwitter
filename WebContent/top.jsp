@@ -32,6 +32,12 @@
 
 			<!-- ログインしている時だけ表示 -->
 			<c:if test="${ not empty loginUser }">
+				<div class="date">
+					日付
+					<input type ="date" name ="start">
+					～
+					<input type ="date" name ="end">
+				</div>
 				<div class="profile">
 					<div class="name">
 						<h2>

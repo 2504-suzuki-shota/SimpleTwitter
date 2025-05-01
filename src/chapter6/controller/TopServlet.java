@@ -49,9 +49,14 @@ public class TopServlet extends HttpServlet {
 			isShowMessageForm = true;
 		}
 		//☆つぶやき表示用
+		//（絞り込み）日付をString型で取得します
+		String start = request.getParameter("start");
+		String end = request.getParameter("end");
+
 		//（追加課題③）
 		String userId = request.getParameter("user_id");
-		List<UserMessage> messages = new MessageService().select(userId);
+		List<UserMessage> messages = new MessageService().select(userId, @@@);
+
 		//messagesはDBから抽出したものを各々でセットした集合体
 		request.setAttribute("messages", messages);
 

@@ -32,7 +32,7 @@ public class UserMessageDao {
 	}
 
 	//つぶやき表示用selectメソッド
-	public List<UserMessage> select(Connection connection, Integer id, int num) {
+	public List<UserMessage> select(Connection connection, Integer id, int num, @@@) {
 
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -57,19 +57,26 @@ public class UserMessageDao {
 			sql.append("INNER JOIN users ");
 			//結合条件 messagesテーブルのuser_idとusersテーブルのidが等しい
 			sql.append("ON messages.user_id = users.id ");
+			//（絞り込み）
+			sql.append("WHERE messages.created_date BETWEEN ? AND ? ");
+
 			//(課題②)idがnullじゃない場合→id = suzuki みたいになってて、suzukiのつぶやきだけ表示してほしい
 			if (id != null) {
 				//取り出す条件指定
 				sql.append("WHERE user_id = ? ");
 			}
+
 			//並び替え
 			sql.append("ORDER BY created_date DESC limit " + num);
-
 			ps = connection.prepareStatement(sql.toString());
+
+			//（絞り込み）
+			ps.setDate(1, start);
+			ps.setDate(2, end);
 
 			//(課題②)
 			if (id != null) {
-				ps.setInt(1, id);
+				ps.setInt(3, id);
 			}
 
 			ResultSet rs = ps.executeQuery();

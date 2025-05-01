@@ -35,15 +35,6 @@ public class LoginFilter implements Filter {
 			//ログイン画面表示したい→ログインサーブレットのdoGetを実行すれば表示されるからリダイレクト
 			httpResponse.sendRedirect("./login");
 		}
-
-//		これだとできないの何で？
-//		if (session.getAttribute("loginUser") == null) {
-//			//ログイン画面表示→doGetを実行すれば表示されるからリダイレクト
-//			httpResponse.sendRedirect("./login");
-//		}
-//		// サーブレットを実行
-//		chain.doFilter(request, response);
-
 	}
 
 	@Override
@@ -53,5 +44,4 @@ public class LoginFilter implements Filter {
 	@Override
 	public void destroy() {
 	}
-
 }
