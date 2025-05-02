@@ -29,8 +29,9 @@ public class LoginFilter implements Filter {
 
 		//ログインしていない場合 ログイン情報のヌルチェック
 		if (session.getAttribute("loginUser") == null) {
-			String check = "ログインフィルターチェック用";
-			session.setAttribute("check", check);
+			//ここでエラーメッセージも用意する
+			String errorMessage = "ログインしてください！！";
+			session.setAttribute("errorMessages", errorMessage);
 			//ログイン画面表示したい→ログインサーブレットのdoGetを実行すれば表示されるからリダイレクト
 			httpResponse.sendRedirect("./login");
 		} else {

@@ -46,27 +46,26 @@ public class CommentServlet extends HttpServlet {
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		HttpSession session = request.getSession();
+		String reply = request.getParameter("comment");
 
-		Comment comment = getComment(request, session);
-
-		//バリデーション処理
+		//バリデーション処理(数が少ないから先にチェックした方が良い)
 		List<String> errorMessages = new ArrayList<String>();
-		if (!isValid(comment.getText(), errorMessages)) {
+		if (!isValid(reply, errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
 			//エラーメッセージをトップ画面に表示させたい
 			response.sendRedirect("./");
 			return;
 		}
 
+		Comment comment = getComment(request, session, reply);
 		new CommentService().insert(comment);
-
 		response.sendRedirect("./");
 	}
 
-	public Comment getComment(HttpServletRequest request, HttpSession session) {
+	public Comment getComment(HttpServletRequest request, HttpSession session, String reply) {
 		Comment comment = new Comment();
 		comment.setMessageId(Integer.parseInt(request.getParameter("id")));
-		comment.setText(request.getParameter("comment"));
+		comment.setText(reply);
 		User user = (User) session.getAttribute("loginUser");
 		comment.setUserId(user.getId());
 		return comment;

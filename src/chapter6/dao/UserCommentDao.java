@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import chapter6.beans.UserMessage;
+import chapter6.beans.UserComment;
 import chapter6.exception.SQLRuntimeException;
 import chapter6.logging.InitApplication;
 
@@ -32,7 +32,7 @@ public class UserCommentDao {
 	}
 
 	//返信表示用selectメソッド
-	public List<UserMessage> select(Connection connection, int num) {
+	public List<UserComment> select(Connection connection, int num) {
 
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
@@ -57,7 +57,7 @@ public class UserCommentDao {
 			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 
-			List<UserMessage> comments = toUserComments(rs);
+			List<UserComment> comments = toUserComments(rs);
 			return comments;
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, new Object() {
@@ -68,16 +68,16 @@ public class UserCommentDao {
 		}
 	}
 
-	private List<UserMessage> toUserComments(ResultSet rs) throws SQLException {
+	private List<UserComment> toUserComments(ResultSet rs) throws SQLException {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//messagesと同じクラスだけど別インスタンスなので上書きされません
-		List<UserMessage> comments = new ArrayList<UserMessage>();
+		List<UserComment> comments = new ArrayList<UserComment>();
 		try {
 			while (rs.next()) {
-				UserMessage comment = new UserMessage();
+				UserComment comment = new UserComment();
 				comment.setId(rs.getInt("id"));
 				comment.setText(rs.getString("text"));
 				comment.setUserId(rs.getInt("user_id"));

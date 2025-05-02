@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import chapter6.beans.Comment;
-import chapter6.beans.UserMessage;
+import chapter6.beans.UserComment;
 import chapter6.dao.CommentDao;
 import chapter6.dao.UserCommentDao;
 import chapter6.logging.InitApplication;
@@ -55,7 +55,7 @@ public class CommentService {
 		}
 	}
 
-	public List<UserMessage> select(){
+	public List<UserComment> select(){
 		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
@@ -65,7 +65,7 @@ public class CommentService {
 		Connection connection = null;
 		try {
 			connection = getConnection();
-			List<UserMessage> comments = new UserCommentDao().select(connection, LIMIT_NUM);
+			List<UserComment> comments = new UserCommentDao().select(connection, LIMIT_NUM);
 			commit(connection);
 			return comments;
 		} catch (RuntimeException e) {
