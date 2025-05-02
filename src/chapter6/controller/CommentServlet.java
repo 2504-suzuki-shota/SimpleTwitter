@@ -67,20 +67,21 @@ public class CommentServlet extends HttpServlet {
 		Comment comment = new Comment();
 		comment.setMessageId(Integer.parseInt(request.getParameter("id")));
 		comment.setText(request.getParameter("comment"));
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		comment.setUserId(user.getId());
 		return comment;
 	}
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
+		//ログの出力
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//返信が何も入力されてない場合（シフト、改行もNG）
 		if (StringUtils.isBlank(text)) {
 			errorMessages.add("メッセージを入力してください");
-		//返信が141文字以上場合
+			//返信が141文字以上場合
 		} else if (140 < text.length()) {
 			errorMessages.add("140文字以下で入力してください");
 		}

@@ -65,6 +65,7 @@ public class LoginServlet extends HttpServlet {
 		String accountOrEmail = request.getParameter("accountOrEmail");
 		String password = request.getParameter("password");
 
+		//UserのBeansに入ってる情報全部持ってる
 		User user = new UserService().select(accountOrEmail, password);
 
 

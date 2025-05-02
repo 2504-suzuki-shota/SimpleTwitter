@@ -27,7 +27,7 @@ public class LoginFilter implements Filter {
 		//セッション獲得
 		HttpSession session = httpRequest.getSession();
 
-		//ログインしていない場合
+		//ログインしていない場合 ログイン情報のヌルチェック
 		if (session.getAttribute("loginUser") == null) {
 			String check = "ログインフィルターチェック用";
 			session.setAttribute("check", check);

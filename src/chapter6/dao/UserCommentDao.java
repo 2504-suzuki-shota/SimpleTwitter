@@ -72,6 +72,7 @@ public class UserCommentDao {
 
 		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
 		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
+
 		//messagesと同じクラスだけど別インスタンスなので上書きされません
 		List<UserMessage> comments = new ArrayList<UserMessage>();
 		try {

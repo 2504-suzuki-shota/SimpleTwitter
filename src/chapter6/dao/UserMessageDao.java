@@ -63,7 +63,7 @@ public class UserMessageDao {
 			//(課題②)idがnullじゃない場合→id = suzuki みたいになってて、suzukiのつぶやきだけ表示してほしい
 			if (id != null) {
 				//取り出す条件指定
-				sql.append("WHERE user_id = ? ");
+				sql.append("AND user_id = ? ");
 			}
 
 			//並び替え
@@ -73,14 +73,12 @@ public class UserMessageDao {
 			//（絞り込み）
 			ps.setString(1, start);
 			ps.setString(2, end);
-
 			//(課題②)
 			if (id != null) {
 				ps.setInt(3, id);
 			}
 
 			ResultSet rs = ps.executeQuery();
-
 			List<UserMessage> messages = toUserMessages(rs);
 			//DBから抽出したものを各々でセットされた集合体を返す
 			return messages;

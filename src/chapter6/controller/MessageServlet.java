@@ -75,10 +75,9 @@ public class MessageServlet extends HttpServlet {
 
 	private boolean isValid(String text, List<String> errorMessages) {
 
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
+		//ログの出力
+		log.info(new Object() {}.getClass().getEnclosingClass().getName() +
+		" : " + new Object() {}.getClass().getEnclosingMethod().getName());
 
 		//テキストが何も入力されてない場合（シフト、改行もNG）
 		if (StringUtils.isBlank(text)) {

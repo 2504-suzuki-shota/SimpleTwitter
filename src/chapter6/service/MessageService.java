@@ -76,27 +76,25 @@ public class MessageService {
 			}
 
 			//（絞り込み）
-			String begin = null;
 			//開始日の指定がない時
 			if(StringUtils.isBlank(start)) {
 				//デフォルトstart（開始日時）
-				begin = "2020-01-01 00:00:00";
+				start = "2020-01-01 00:00:00";
 			} else {
 				//入力された日付(日付変わった直後から)
-				begin = start + " 00:00:00";
+				start += " 00:00:00";
 			}
 
-			String finish = null;
 			//終了日の指定がない時
 			if(StringUtils.isBlank(end)) {
 				//デフォルトend（現在日時の取得）
-				finish = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(new Date());
+				end = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss").format(new Date());
 			} else {
 				//入力された日付(日付変わる直前まで)
-				finish = end + " 23:59:59";
+				end += " 23:59:59";
 			}
 
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, begin, finish);
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, start, end);
 			commit(connection);
 			return messages;
 		} catch (RuntimeException e) {

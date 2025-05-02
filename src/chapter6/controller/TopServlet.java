@@ -52,11 +52,12 @@ public class TopServlet extends HttpServlet {
 		//（絞り込み）日付を取得します
 		String start = request.getParameter("start");
 		String end = request.getParameter("end");
-
-		//（追加課題③）
+		//入力された日付は保持して表示させたい
+		request.setAttribute("start", start);
+		request.setAttribute("end", end);
+		//（追加課題③）指定したユーザーのつぶやきのみ表示
 		String userId = request.getParameter("user_id");
 		List<UserMessage> messages = new MessageService().select(userId, start, end);
-
 		//messagesはDBから抽出したものを各々でセットした集合体
 		request.setAttribute("messages", messages);
 
@@ -67,7 +68,7 @@ public class TopServlet extends HttpServlet {
 		request.setAttribute("comments", comments);
 
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
-		//top.jspにこれらの情報渡す
+		//top.jspにsetした全部の情報渡す
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
 }

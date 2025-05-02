@@ -49,8 +49,7 @@ public class EditServlet extends HttpServlet {
 		String checkId = request.getParameter("id");
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
-		//①空値になっている（スペース、改行含む）nullチェック先にやる！
-		//②数字以外の文字
+		//①空値になっている（スペース、改行含む）②数字以外の文字→nullチェックは先に。
 		//この２つだとintに変換できないから困る！
 		HttpSession session = request.getSession();
 		if(StringUtils.isBlank(checkId) || !checkId.matches("^[0-9]*$")) {
@@ -64,7 +63,7 @@ public class EditServlet extends HttpServlet {
 		//無事にintにできました→Daoでid使いたいから運ぶ
 		int id = Integer.parseInt(checkId);
 
-		//editには更新対象のmessagesテーブルのid,user_id,textが入ってる
+		//editMessageには更新対象のmessagesテーブルのid,user_id,textが入ってる
 		Message editMessage = new MessageService().select(id);
 
 		//エラーメッセージを表示したい条件はgetParameterしたidが
