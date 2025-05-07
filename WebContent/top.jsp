@@ -10,6 +10,10 @@
 	<title>簡易Twitter</title>
 	<!-- cssの読み込み -->
 	<link href="./css/style.css" rel="stylesheet" type="text/css">
+	<!-- JavaScriptの読み込み -->
+	<script src="./js/vendor/jquery-3.7.1.min.js"></script>
+	<script src="./js/vendor/jquery-3.7.1.js"></script>
+	<script src="./js/main.js"></script>
 	</head>
 
 	<body>
@@ -113,11 +117,11 @@
 								 <form action="edit" method="get">
 									<!-- name属性はサーブレットに渡すのための名前、valueは具体的な値 -->
 									<input type="hidden" name="id" value="${message.id}">
-									<input type="submit" value="編集">
+									<input type="submit" value="編集" id="edit">
 								</form>
 								<form action="deleteMessage" method="post">
 									<input type="hidden" name="id" value="${message.id}">
-									<input type="submit" value="削除">
+									<input type="submit" value="削除" id="delete">
 								</form>
 							</c:if>
 						</div>
